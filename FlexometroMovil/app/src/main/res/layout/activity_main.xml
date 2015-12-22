@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite">
+
+    <ImageView
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:id="@+id/imgLogo"
+        android:layout_gravity="center_horizontal|top"
+        android:src="@drawable/logo"
+        android:layout_marginTop="40dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="50dp">
+
+        <Button
+            android:layout_width="350dp"
+            android:layout_height="70dp"
+            android:text="Medir"
+            android:id="@+id/btnMedir"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/rounded_button_2"
+            android:textColor="@color/colorWhite"
+            android:textSize="25dp" />
+
+        <Button
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:text="Mis mediciones"
+            android:id="@+id/btnMediciones"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/colorWhite"
+            android:textSize="15dp" />
+
+        <Button
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:text="Acerca de"
+            android:id="@+id/btnAcercaDe"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/colorWhite"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBlack"
+        android:alpha="0.5"
+        android:id="@+id/overlayMask"
+        android:visibility="invisible"></LinearLayout>
+
+</FrameLayout>
