@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html manifest="" lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <!-- Disable phone links -->
+    <meta name="format-detection" content="telephone=no">
+    <title>Healthchat</title>    
+
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    // Wait for PhoneGap to load
+    // 
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // PhoneGap is loaded and it is now safe to make calls PhoneGap methods
+    //
+    function onDeviceReady() {
+        checkConnection();
+    }
+
+    function checkConnection() {
+        
+        console.info('Stripe typeof:', typeof Stripe);
+
+        //console.info('connection type', navigator.connection.type);
+        //if (navigator.connection.type == 'none') {
+
+        //If stripe script couldn't be loaded (no internet connection) then typeof Stripe is undefined
+        if (typeof Stripe == 'undefined') {
+            //alert('Your device don\'t have internet connection. Please connect it to someone.');
+            var body = document.getElementsByTagName('BODY')[0];
+
+            var maindiv = document.createElement('div');
+            maindiv.setAttribute('id', 'no_internet');
+
+            var logo_div = document.createElement('div');
+            logo_div.setAttribute('id', 'logo_div');
+            logo_div.style.width =  '100%';
+            logo_div.style.marginTop = '20%';
+
+            var logo = document.createElement('img');
+            logo.setAttribute('id', 'logo');
+            logo.setAttribute('src', 'resources/images/logo.svg');
+            //logo.style.background = 'url(resources/images/logo.svg) no-repeat center center';
+            logo.style.width = '60%';
+            logo.style.display = 'block';
+            logo.style.marginLeft = 'auto';
+            logo.style.marginRight = 'auto';
+
+            var message = document.createElement('div');
+            message.setAttribute('id', 'message');
+            message.style.width =  '100%';
+            message.style.padding = '15px';            
+            message.style.marginTop = '20%';
+            message.style.textAlign = 'center';
+
+            var title = document.createElement('div');
+            title.setAttribute('id', 'title');
+            title.style.fontSize = '22px';
+            title.style.fontWeight = 'bold';
+            title.style.marginBottom = '25px';
+            title.innerHTML = 'Internet connection';
+
+            var text = document.createElement('p');
+            text.setAttribute('id', 'text');
+            text.style.fontSize = '18px';
+            text.innerHTML = 'Your device don\'t have internet connection. Please check your network status.';
+            
+            
+            logo_div.appendChild(logo);
+            message.appendChild(title);
+            message.appendChild(text);
+            maindiv.appendChild(logo_div);
+            maindiv.appendChild(message);
+            body.appendChild(maindiv);
+        }
+    }
+
+    </script>
+
+    <!-- The line below must be kept intact for Sencha Command to build your application -->
+    <script id="microloader" type="text/javascript" src=".sencha/app/microloader/development.js"></script>
+    <script type="text/javascript" src="http://mia01.carvajalonline.com:8068/hct/api.js?ns=Direct"></script>
+
+<!--
+    <script type="text/javascript" src="https://app.healthchatpro.com/api.js?ns=Direct"></script>
+    <script type="text/javascript" src="http://mia01.carvajalonline.com:8068/hct/api.js?ns=Direct"></script>
+    <script type="text/javascript" src="http://192.168.0.12:8068/hct/api.js?ns=Direct"></script>
+-->
+
+    <script src="http://crypto-js.googlecode.com/files/2.0.0-crypto-sha1.js"></script>
+    <script src="http://crypto-js.googlecode.com/files/2.0.0-hmac-min.js"></script>
+    
+
+</head>
+<body>
+</body>
+</html>
