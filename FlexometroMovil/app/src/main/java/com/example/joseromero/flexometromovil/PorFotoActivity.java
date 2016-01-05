@@ -11,11 +11,14 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -32,7 +35,7 @@ public class PorFotoActivity extends Activity {
 
     private static final int CAMERA_REQUEST = 1888;
     private ImageView fotoTomada;
-    Button photoButton;
+    //Button photoButton;
     //Uri outputFileUri;
 
     @Override
@@ -45,41 +48,50 @@ public class PorFotoActivity extends Activity {
         setContentView(R.layout.activity_por_foto);
         fotoTomada = (ImageView)this.findViewById(R.id.fotoTomada);
 
-        photoButton = (Button) this.findViewById(R.id.btnFoto);
-        photoButton.setOnClickListener(new View.OnClickListener() {
+        //photoButton = (Button) this.findViewById(R.id.btnFoto);
+        /*photoButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                //Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                //startActivityForResult(cameraIntent, CAMERA_REQUEST);
-
-                /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                startActivityForResult(intent, 1);*/
-
-                try {
-                    //SimpleDateFormat sdfPic = new SimpleDateFormat(DATE_FORMAT);
-                    //currentDateandTime = sdfPic.format(new Date()).replace(" ", "");
-                    File imagesFolder = new File("FlexImg");
-                    imagesFolder.mkdirs();
-                    Random generator = new Random();
-                    int n = 10000;
-                   // n = generator.nextInt(n);
-                    String fname = "img" + n + ".jpg";
-                    File file = new File(imagesFolder, fname);
-                    Uri outputFileUri = Uri.fromFile(file);
-                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                }catch(Exception e) {
-                    e.printStackTrace();
-                }
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
-        });
+        });*/
+
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, CAMERA_REQUEST);
     }
 
+    /*@Override
+    protected void onStart() {
+        super.onStart();
+
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+    }*/
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            Uri imageUri = data.getData();
+            DisplayMetrics metrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                fotoTomada.setImageBitmap(bitmap);
+                fotoTomada.setRotation(90);
+                FrameLayout.LayoutParams paramsFoto = new FrameLayout.LayoutParams(2000, 2000);
+                paramsFoto.leftMargin = -450;
+                //paramsFoto.topMargin = paramsButtonPanel.topMargin - getPixelsFromDp(55);
+                fotoTomada.setLayoutParams(paramsFoto);//(width,height);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         /*super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode) {

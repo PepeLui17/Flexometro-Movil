@@ -3,6 +3,7 @@
     package="com.example.joseromero.flexometromovil">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -19,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ObjetosPequenosActivity" />
+        <activity android:name=".ObjetosPequenosActivity" android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden"/>
         <activity android:name=".PorFotoActivity" />
         <activity android:name=".PorMovimientoActivity"></activity>
     </application>
