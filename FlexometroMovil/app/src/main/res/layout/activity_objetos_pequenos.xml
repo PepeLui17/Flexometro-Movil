@@ -12,18 +12,26 @@
         android:layout_height="wrap_content" />
 
     <ImageView
+        android:id="@+id/DrawingImageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/DrawingImageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
         android:layout_width="fill_parent"
-        android:layout_height="10dp"
-        android:background="#FA0EAA"
+        android:layout_height="30dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:id="@+id/btnguiahorizontal" />
 
     <ImageView
-        android:layout_width="10dp"
+        android:layout_width="30dp"
         android:layout_height="match_parent"
-        android:background="#0A0EF0"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,7 +27,7 @@ public class ObjetosPequenosActivity extends Activity {
 
     ImageView guiahorizontal, guiavertical;
     TextView tvHeight, tvWidth;
-    ImageView drawingImageView;
+    ImageView drawingImageView, drawingImageView2, drawingImageView3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +50,8 @@ public class ObjetosPequenosActivity extends Activity {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
 
-        float screenHeightPixels = metrics.heightPixels;
-        float screenWidthPixels = metrics.widthPixels;
+        final float screenHeightPixels = metrics.heightPixels;
+        final float screenWidthPixels = metrics.widthPixels;
 
         System.out.println("height pixels:" + screenHeightPixels);
         //float screenHeightMM = 147.0f;
@@ -149,11 +150,53 @@ public class ObjetosPequenosActivity extends Activity {
             canvas.drawLine(startx, starty, endx, endy, paint);
             i++;
         }
+
+        //Dibujando referencias
+        Paint paint3 = new Paint();
+        //Canvas canvas2 = new Canvas(bitmap);
+        //paint2.setColor(Color.WHITE);
+        //paint2.setStyle(Paint.Style.FILL);
+        //canvas.drawPaint(paint);
+
+        paint3.setColor(Color.RED);
+        paint3.setStrokeWidth(15);
+        canvas.drawLine(screenWidthPixels-60, 0, screenWidthPixels, 0, paint3);
+        canvas.drawLine(screenWidthPixels, 0, screenWidthPixels, 60, paint3);
+
         ////////
 
+        // Dibujando guia vertical
+        drawingImageView2 = (ImageView) this.findViewById(R.id.DrawingImageView2);
+        final Bitmap bitmap2 = Bitmap.createBitmap((int) getWindowManager()
+                .getDefaultDisplay().getWidth(), (int) getWindowManager()
+                .getDefaultDisplay().getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas2 = new Canvas(bitmap2);
+        drawingImageView2.setImageBitmap(bitmap2);
+
+        final Paint paint5 = new Paint();
+        final Canvas canvas5 = new Canvas(bitmap2);
+
+        paint5.setColor(Color.BLUE);
+        paint5.setStrokeWidth(5);
+
+        canvas5.drawLine(30, 0, 30, screenHeightPixels, paint5);
 
 
+        // Dibujando guia horizontal
+        drawingImageView3 = (ImageView) this.findViewById(R.id.DrawingImageView3);
+        final Bitmap bitmap3 = Bitmap.createBitmap((int) getWindowManager()
+                .getDefaultDisplay().getWidth(), (int) getWindowManager()
+                .getDefaultDisplay().getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas3 = new Canvas(bitmap3);
+        drawingImageView3.setImageBitmap(bitmap3);
 
+        final Paint paint4 = new Paint();
+        final Canvas canvas4 = new Canvas(bitmap3);
+
+        paint4.setColor(Color.GRAY);
+        paint4.setStrokeWidth(5);
+
+        canvas4.drawLine(0, 30, screenWidthPixels, 30, paint4);
 
 
 
@@ -165,13 +208,19 @@ public class ObjetosPequenosActivity extends Activity {
                 final RelativeLayout.LayoutParams par = (RelativeLayout.LayoutParams) v.getLayoutParams();
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE: {
-                        //System.out.println("getx:"+((int) event.getX()));
-                        //System.out.println("getyPrecission:"+((int) event.getYPrecision()));
-
-                        //if ((int) event.getRawY() > 244 && (int) event.getRawY() < 1770) {
-                        //System.out.println("getx:" + ((int) event.getRawX()));
                         float measureX = (screenWidthMM-((int) event.getRawX()/pixelsPerMM))/10;
                         DecimalFormat df = new DecimalFormat("0.00");
+
+                        /////
+                        Paint paint2 = new Paint();
+                        Canvas canvas2 = new Canvas(bitmap2);
+                        canvas2.drawColor(0, PorterDuff.Mode.CLEAR);
+
+                        paint2.setColor(Color.BLUE);
+                        paint2.setStrokeWidth(5);
+
+                        canvas2.drawLine((int) event.getRawX(),0, (int) event.getRawX(),screenHeightPixels, paint2);
+                        /////
 
                         tvWidth.setText("Width: "+df.format(measureX) + " cm");
 
@@ -231,6 +280,17 @@ public class ObjetosPequenosActivity extends Activity {
                             //tvHeight.setText("y: "+((int) event.getRawY()));
                             float measureY = ((int) event.getRawY() / pixelsPerMM)/10;
                             DecimalFormat df = new DecimalFormat("0.00");
+
+                            /////
+                            Paint paint2 = new Paint();
+                            Canvas canvas2 = new Canvas(bitmap3);
+                            canvas2.drawColor(0, PorterDuff.Mode.CLEAR);
+
+                            paint2.setColor(Color.GRAY);
+                            paint2.setStrokeWidth(5);
+
+                            canvas2.drawLine(0, (int) event.getRawY(), screenWidthPixels,(int) event.getRawY(), paint2);
+                            ////
 
                             tvHeight.setText("Height: " + df.format(measureY) + " cm");
                             par.topMargin += (int) event.getRawY() - prevY;
