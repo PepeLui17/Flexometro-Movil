@@ -1,6 +1,10 @@
 package com.example.joseromero.flexometromovil;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,10 +20,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+
 public class ObjetosPequenosActivity extends Activity {
 
     ImageView guiahorizontal, guiavertical;
     TextView tvHeight, tvWidth;
+    ImageView drawingImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,9 @@ public class ObjetosPequenosActivity extends Activity {
         }
         setContentView(R.layout.activity_objetos_pequenos);
 
+        //rulerView = new RulerView(this);
+        //rulerView.setBackgroundColor(Color.WHITE);
+        //setContentView(rulerView);
         guiahorizontal = (ImageView) findViewById(R.id.btnguiahorizontal);
         guiavertical = (ImageView) findViewById(R.id.btnguiavertical);
         tvHeight = (TextView) findViewById(R.id.tvHeight);
@@ -40,14 +50,112 @@ public class ObjetosPequenosActivity extends Activity {
         getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
 
         float screenHeightPixels = metrics.heightPixels;
-        //float screenHeightMM = 131.0f;
-        float screenHeightMM = 147.0f;
-        final float screenWidthMM = 83.5f;
+        float screenWidthPixels = metrics.widthPixels;
+
+        System.out.println("height pixels:" + screenHeightPixels);
+        //float screenHeightMM = 147.0f;
+        //final float screenWidthMM = 83.5f;
+
+        //float screenHeightMM = 154.0f;
+        //final float screenWidthMM = 90.0f;
+
+        float screenHeightMM = 121.5f;
+        final float screenWidthMM = 68.7f;
 
         final float pixelsPerMM = screenHeightPixels / screenHeightMM;
+        System.out.println("pixels per mm:" + pixelsPerMM);
 
         //float heightPixels = pixelsPerMM * 53.98f;
         float heightPixels = pixelsPerMM * 100.0f;
+
+        ////////
+        drawingImageView = (ImageView) this.findViewById(R.id.DrawingImageView);
+        Bitmap bitmap = Bitmap.createBitmap((int) getWindowManager()
+                .getDefaultDisplay().getWidth(), (int) getWindowManager()
+                .getDefaultDisplay().getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawingImageView.setImageBitmap(bitmap);
+
+        //Dibujando regla vertical
+        int i=0, number = 0;
+        for(float y=0; y<screenHeightPixels; y=y+pixelsPerMM){
+            // Line
+            Paint paint = new Paint();
+            paint.setColor(Color.rgb(255, 153, 51));
+            paint.setStrokeWidth(1);
+            float startx = screenWidthPixels;
+            float starty = y;
+            float endx = screenWidthPixels-20;
+
+            if(i%5 == 0){
+                endx = screenWidthPixels-30;
+            }
+            if(i%10 == 0){
+                endx = screenWidthPixels-60;
+
+                Paint paint2 = new Paint();
+                Canvas canvas2 = new Canvas(bitmap);
+                //paint2.setColor(Color.WHITE);
+                //paint2.setStyle(Paint.Style.FILL);
+                //canvas.drawPaint(paint);
+
+                paint2.setColor(Color.BLACK);
+                paint2.setTextSize(25);
+                canvas2.rotate(90, screenWidthPixels-80, y);
+                canvas2.drawText("" + number, screenWidthPixels-80, y, paint2);
+                number++;
+            }
+
+            float endy = y;
+            canvas.drawLine(startx, starty, endx, endy, paint);
+            i++;
+        }
+
+        //Dibujando regla horizontal
+        i=0;
+        number = 0;
+        //for(float y=0; y<screenHeightPixels; y=y+pixelsPerMM){
+        for(float x=screenWidthPixels; x>0; x=x-pixelsPerMM){
+
+            // Line
+            Paint paint = new Paint();
+            paint.setColor(Color.rgb(255, 153, 51));
+            paint.setStrokeWidth(1);
+            float startx = x;
+            float starty = 0;
+
+            float endy = 20;
+
+            if(i%5 == 0){
+                endy = 30;
+            }
+            if(i%10 == 0){
+                endy = 60;
+
+                Paint paint3 = new Paint();
+                Canvas canvas2 = new Canvas(bitmap);
+                //paint2.setColor(Color.WHITE);
+                //paint2.setStyle(Paint.Style.FILL);
+                //canvas.drawPaint(paint);
+
+                paint3.setColor(Color.BLACK);
+                paint3.setTextSize(25);
+                //canvas2.rotate(90, screenWidthPixels-40, y);
+                canvas2.drawText("" + number, x, 35, paint3);
+                number++;
+            }
+
+            float endx = x;
+            canvas.drawLine(startx, starty, endx, endy, paint);
+            i++;
+        }
+        ////////
+
+
+
+
+
+
 
         guiavertical.setOnTouchListener(new View.OnTouchListener() {
             int prevX, prevY;
@@ -62,7 +170,10 @@ public class ObjetosPequenosActivity extends Activity {
 
                         //if ((int) event.getRawY() > 244 && (int) event.getRawY() < 1770) {
                         //System.out.println("getx:" + ((int) event.getRawX()));
-                        tvWidth.setText("Width: "+(screenWidthMM-((int) event.getRawX()/pixelsPerMM)));
+                        float measureX = (screenWidthMM-((int) event.getRawX()/pixelsPerMM))/10;
+                        DecimalFormat df = new DecimalFormat("0.00");
+
+                        tvWidth.setText("Width: "+df.format(measureX) + " cm");
 
                         par.rightMargin += (int) event.getRawY() - prevY;
                         prevY = (int) event.getRawY();
@@ -118,7 +229,10 @@ public class ObjetosPequenosActivity extends Activity {
 
                             //System.out.println("gety:" + ((int) event.getRawY()));
                             //tvHeight.setText("y: "+((int) event.getRawY()));
-                            tvHeight.setText("Height: "+((int) event.getRawY()/pixelsPerMM));
+                            float measureY = ((int) event.getRawY() / pixelsPerMM)/10;
+                            DecimalFormat df = new DecimalFormat("0.00");
+
+                            tvHeight.setText("Height: " + df.format(measureY) + " cm");
                             par.topMargin += (int) event.getRawY() - prevY;
                             prevY = (int) event.getRawY();
                             par.leftMargin += (int) event.getRawX() - prevX;
@@ -127,7 +241,6 @@ public class ObjetosPequenosActivity extends Activity {
 
                         }
                         return true;
-
 
                     }
                     case MotionEvent.ACTION_UP: {
@@ -149,42 +262,10 @@ public class ObjetosPequenosActivity extends Activity {
                         v.setLayoutParams(par);
                         return true;
                         //}
-
-
                     }
                 }
                 return false;
             }
         });
-
-        /*
-
-        DisplayMetrics metrics = new DisplayMetrics();
-        //getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
-
-        System.out.println("heightpixels:"+metrics.heightPixels);
-
-        Display display = getWindowManager().getDefaultDisplay();
-        int width = display.getWidth();  // deprecated
-        int height = display.getHeight();
-        System.out.println("heightdisplay:"+height);
-
-        float screenHeightPixels = metrics.heightPixels;
-        //float screenHeightMM = 131.0f;
-        float screenHeightMM = 147.0f;
-
-        float pixelsPerMM = screenHeightPixels / screenHeightMM;
-
-        //float heightPixels = pixelsPerMM * 53.98f;
-        float heightPixels = pixelsPerMM * 100.0f;
-        */
-
-        /*
-        btn.setText("Hola");
-        btn.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        btn.getLayoutParams().width=400;
-        btn.getLayoutParams().height= (int) heightPixels;
-        */
     }
 }
