@@ -1,6 +1,8 @@
 package com.example.joseromero.flexometromovil;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -23,11 +25,17 @@ import android.widget.Toast;
 
 import java.text.DecimalFormat;
 
-public class ObjetosPequenosActivity extends Activity {
+public class ObjetosPequenosActivity extends /*AppCompat*/Activity {
 
     ImageView guiahorizontal, guiavertical;
     TextView tvHeight, tvWidth;
     ImageView drawingImageView, drawingImageView2, drawingImageView3;
+
+    //Botones de guardar y calibrar
+    ImageView btnSave, btnSettings;
+
+    private Context myContext;
+    private float widthMeasured, heightMeasured;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +46,13 @@ public class ObjetosPequenosActivity extends Activity {
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
         setContentView(R.layout.activity_objetos_pequenos);
+
+        myContext = this;
+        widthMeasured = 0.0f;
+        heightMeasured = 0.0f;
+
+        btnSave = (ImageView) findViewById(R.id.btnSave);
+        btnSettings = (ImageView) findViewById(R.id.btnSettings);
 
         //rulerView = new RulerView(this);
         //rulerView.setBackgroundColor(Color.WHITE);
@@ -60,8 +75,14 @@ public class ObjetosPequenosActivity extends Activity {
         //float screenHeightMM = 154.0f;
         //final float screenWidthMM = 90.0f;
 
-        float screenHeightMM = 121.5f;
-        final float screenWidthMM = 68.7f;
+        float widthExtra = getIntent().getFloatExtra("screenWidth", 90.0f);
+        float heightExtra = getIntent().getFloatExtra("screenHeight", 154.0f);
+
+        //float screenHeightMM = 121.5f;
+        //final float screenWidthMM = 68.7f;
+
+        float screenHeightMM = heightExtra;
+        final float screenWidthMM = widthExtra;
 
         final float pixelsPerMM = screenHeightPixels / screenHeightMM;
         System.out.println("pixels per mm:" + pixelsPerMM);
@@ -208,7 +229,7 @@ public class ObjetosPequenosActivity extends Activity {
                 final RelativeLayout.LayoutParams par = (RelativeLayout.LayoutParams) v.getLayoutParams();
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE: {
-                        float measureX = (screenWidthMM-((int) event.getRawX()/pixelsPerMM))/10;
+                        float measureX = (screenWidthMM - ((int) event.getRawX() / pixelsPerMM)) / 10;
                         DecimalFormat df = new DecimalFormat("0.00");
 
                         /////
@@ -219,10 +240,12 @@ public class ObjetosPequenosActivity extends Activity {
                         paint2.setColor(Color.BLUE);
                         paint2.setStrokeWidth(5);
 
-                        canvas2.drawLine((int) event.getRawX(),0, (int) event.getRawX(),screenHeightPixels, paint2);
+                        canvas2.drawLine((int) event.getRawX(), 0, (int) event.getRawX(), screenHeightPixels, paint2);
                         /////
 
-                        tvWidth.setText("Width: "+df.format(measureX) + " cm");
+                        widthMeasured = Float.parseFloat(df.format(measureX));
+
+                        tvWidth.setText("Width: " + df.format(measureX) + " cm");
 
                         par.rightMargin += (int) event.getRawY() - prevY;
                         prevY = (int) event.getRawY();
@@ -292,6 +315,8 @@ public class ObjetosPequenosActivity extends Activity {
                             canvas2.drawLine(0, (int) event.getRawY(), screenWidthPixels,(int) event.getRawY(), paint2);
                             ////
 
+                            heightMeasured = Float.parseFloat(df.format(measureY));
+
                             tvHeight.setText("Height: " + df.format(measureY) + " cm");
                             par.topMargin += (int) event.getRawY() - prevY;
                             prevY = (int) event.getRawY();
@@ -327,5 +352,26 @@ public class ObjetosPequenosActivity extends Activity {
                 return false;
             }
         });
+
+
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(myContext, SettingsActivity.class);
+                myContext.startActivity(intent);
+                finish();
+            }
+        });
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(myContext, NuevaMedicionActivity.class);
+                intent.putExtra("widthMeasured", widthMeasured);
+                intent.putExtra("heightMeasured", heightMeasured);
+                myContext.startActivity(intent);
+            }
+        });
+
     }
 }

@@ -26,6 +26,7 @@ public class MainActivity extends Activity {
     private FrameLayout mainLayout;
     private LinearLayout overlayMask;
     private Context myContext;
+    Button btnMediciones;
     //private boolean overlayVisible = false;
 
     @Override
@@ -38,6 +39,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         myContext = this;
+        btnMediciones = (Button) findViewById(R.id.btnMediciones);
         mainLayout = (FrameLayout) findViewById(R.id.mainLayout);
         overlayMask = (LinearLayout) findViewById(R.id.overlayMask);
 
@@ -53,7 +55,7 @@ public class MainActivity extends Activity {
 
                 Button btnObjetosPequenos = (Button) popupView.findViewById(R.id.btnObjetosPequenos);
                 Button btnPorFoto = (Button) popupView.findViewById(R.id.btnPorFoto);
-                Button btnPorMovimiento = (Button) popupView.findViewById(R.id.btnPorMovimiento);
+                //Button btnPorMovimiento = (Button) popupView.findViewById(R.id.btnPorMovimiento);
 
                 btnObjetosPequenos.setOnClickListener(new Button.OnClickListener() {
 
@@ -77,7 +79,7 @@ public class MainActivity extends Activity {
                     }
                 });
 
-                btnPorMovimiento.setOnClickListener(new Button.OnClickListener() {
+                /*btnPorMovimiento.setOnClickListener(new Button.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
@@ -86,10 +88,12 @@ public class MainActivity extends Activity {
                         overlayMask.setVisibility(View.INVISIBLE);
                         myContext.startActivity(intent);
                     }
-                });
+                });*/
 
                 popupWindow.showAtLocation(mainLayout, Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+
                 overlayMask.setVisibility(View.VISIBLE);
+
                 overlayMask.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -98,6 +102,14 @@ public class MainActivity extends Activity {
                     }
                 });
 
+            }
+        });
+
+        btnMediciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(myContext, MisMedicionesActivity.class);
+                myContext.startActivity(intent);
             }
         });
 /*

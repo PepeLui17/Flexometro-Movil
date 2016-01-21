@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.joseromero.flexometromovil.SettingsActivity"
+    android:background="@color/colorWhite"
+    android:padding="20dp">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Datos de la medición"
+        android:id="@+id/textView"
+        android:textAlignment="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="30dp"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Nombre (el nombre no puede contener los simbolos / o ,)"
+        android:id="@+id/textView6"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/colorBlack"
+        android:textAlignment="center"
+        android:textSize="22dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/txtName"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="5dp"
+        android:textSize="20dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Ancho (mm)"
+        android:id="@+id/textView2"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorBlack"
+        android:textAlignment="center"
+        android:textSize="22dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/txtWidth"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="5dp"
+        android:textSize="20dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Alto (mm)"
+        android:id="@+id/textView3"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorBlack"
+        android:textAlignment="center"
+        android:textSize="22dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/txtHeight"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="5dp"
+        android:textSize="20dp"
+        android:textAlignment="center" />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="Guardar"
+        android:id="@+id/btnGuardar"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_button_2"
+        android:textColor="@color/colorWhite"
+        android:layout_marginTop="30dp"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/text_cancelar_underlined"
+        android:id="@+id/btnCancelar"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/colorBlack"
+        android:textAlignment="center"
+        android:textSize="23dp" />
+
+</LinearLayout>
