@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(myContext, PorFotoActivity.class);
+                        Intent intent = new Intent(myContext, ObjetoReferenciaActivity.class);
                         popupWindow.dismiss();
                         overlayMask.setVisibility(View.INVISIBLE);
                         myContext.startActivity(intent);

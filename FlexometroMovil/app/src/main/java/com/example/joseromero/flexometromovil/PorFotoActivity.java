@@ -1,6 +1,7 @@
 package com.example.joseromero.flexometromovil;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -41,11 +42,14 @@ public class PorFotoActivity extends Activity {
 
     private static final int CAMERA_REQUEST = 1888;
     private ImageView fotoTomada;
+    private ImageView btnSave;
 
     ImageView guiaReferencia1, guiaReferencia2, guiaHorizontal1, guiaHorizontal2;
     ImageView drawingImageView1, drawingImageView2;
 
     int refY1=0, refY2=0, guia1=0, guia2=0;
+    private Context myContext;
+    private float widthMeasured, heightMeasured;
     //Button photoButton;
     //Uri outputFileUri;
 
@@ -59,7 +63,21 @@ public class PorFotoActivity extends Activity {
         setContentView(R.layout.activity_por_foto);
         fotoTomada = (ImageView)this.findViewById(R.id.fotoTomada);
 
+        myContext = this;
+        widthMeasured = 0.0f;
+        heightMeasured = 0.0f;
 
+        btnSave = (ImageView) findViewById(R.id.btnSave);
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(myContext, NuevaMedicionActivity.class);
+                intent.putExtra("widthMeasured", widthMeasured);
+                intent.putExtra("heightMeasured", heightMeasured);
+                myContext.startActivity(intent);
+            }
+        });
 
         /////
 

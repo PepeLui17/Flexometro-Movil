@@ -29,7 +29,8 @@
         <activity android:name=".PorMovimientoActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".NuevaMedicionActivity" />
-        <activity android:name=".MisMedicionesActivity"></activity>
+        <activity android:name=".MisMedicionesActivity" />
+        <activity android:name=".ObjetoReferenciaActivity"></activity>
     </application>
 
 </manifest>
